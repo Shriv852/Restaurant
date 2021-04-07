@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Threading;
 
 namespace Restaurant
 {
     class Program
     {
+        public static List<int> orderNum = new List<int>();
         public static void Main(string[] args)
         {
             bool loop = true;
@@ -44,10 +44,6 @@ namespace Restaurant
                 }
                 if (runLoopNum == 3)
                 {
-                    List<int> orderNum = new List<int>();
-                    var dupe = orderNum.ToList();
-
-
                     Console.WriteLine("Enter 1 to Order OR Enter 2 to Finish Ordering");
                     int order = Convert.ToInt32(Console.ReadLine());
                     do
@@ -60,8 +56,6 @@ namespace Restaurant
                         order = Convert.ToInt32(Console.ReadLine());
                     } while (order == 1);
 
-
-
                     Console.WriteLine("Preparing Food.....");
                     Thread.Sleep(3000);
                     Console.WriteLine("Eating....");
@@ -69,13 +63,14 @@ namespace Restaurant
                 }
                 if (runLoopNum == 4)
                 {
-
+                    Reciept(orderNum, new double[] { 8.99, 10.99, 14.00, 19.99, 8.99, 10.99, 6.00, 10.50 }, 0.00);
                 }
                 if (runLoopNum == 5)
                 {
                     Console.WriteLine("How much would you like to tip?");
                     double tip = Convert.ToDouble(Console.ReadLine());
                     Console.WriteLine("Tip Added!");
+                    Reciept(orderNum, new double[] { 8.99, 10.99, 14.00, 19.99, 8.99, 10.99, 6.00, 10.50 }, tip);
                 }
 
 
@@ -125,16 +120,14 @@ namespace Restaurant
             }
         } //End Menu Method
 
-        public static void Reciept(List<int> orderNum, double[] itemPrices)
+        public static void Reciept(List<int> orderNum1, double[] itemPrices, double tip)
         {
             double total = 0.0;
-            for (int i = 0; i < orderNum.Count; i++)
+            for (int i = 0; i < orderNum1.Count; i++)
             {
-                total += itemPrices[i];
-
-                Console.WriteLine("Total: " + total);
+                total += itemPrices[i] + tip;
             }
+            Console.WriteLine("Total: " + total.ToString("C", CultureInfo.CurrentCulture));
         }
-
     }
 }
